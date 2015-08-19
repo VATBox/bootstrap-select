@@ -1,5 +1,5 @@
 /*!
- * Bootstrap-select v1.7.3 (http://silviomoreto.github.io/bootstrap-select)
+ * Bootstrap-select v1.7.3-custom (http://silviomoreto.github.io/bootstrap-select)
  *
  * Copyright 2013-2015 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
@@ -272,6 +272,10 @@
       this.options.title = this.$element.attr('title');
     }
 
+    if (this.$element.data('show-clear')) {
+      this.options.showClear = this.$element.data('show-clear');
+    }
+
     //Expose public methods
     this.val = Selectpicker.prototype.val;
     this.render = Selectpicker.prototype.render;
@@ -287,7 +291,7 @@
     this.init();
   };
 
-  Selectpicker.VERSION = '1.7.2';
+  Selectpicker.VERSION = '1.7.3-custom';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
@@ -333,7 +337,8 @@
     maxOptions: false,
     mobile: false,
     selectOnTab: false,
-    dropdownAlignRight: false
+    dropdownAlignRight: false,
+    showClear: false
   };
 
   Selectpicker.prototype = {
@@ -343,6 +348,7 @@
     init: function () {
       var that = this,
           id = this.$element.attr('id');
+      this.elemId = id;
 
       this.$element.addClass('bs-select-hidden');
       // store originalIndex (key) and newIndex (value) in this.liObj for fast accessibility
@@ -408,34 +414,42 @@
       // Elements
       var header = this.options.header ? '<div class="popover-title"><button type="button" class="close" aria-hidden="true">&times;</button>' + this.options.header + '</div>' : '';
       var searchbox = this.options.liveSearch ?
-      '<div class="bs-searchbox">' +
-      '<input type="text" class="form-control" autocomplete="off"' +
-      (null === this.options.liveSearchPlaceholder ? '' : ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"') + '>' +
-      '</div>'
+        '<div class="bs-searchbox">' +
+        '<input type="text" class="form-control" autocomplete="off"' +
+        (null === this.options.liveSearchPlaceholder ? '' : ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"') + '>' +
+        '</div>'
           : '';
       var actionsbox = this.multiple && this.options.actionsBox ?
-      '<div class="bs-actionsbox">' +
-      '<div class="btn-group btn-group-sm btn-block">' +
-      '<button type="button" class="actions-btn bs-select-all btn btn-default">' +
+        '<div class="bs-actionsbox">' +
+        '<div class="btn-group btn-group-sm btn-block">' +
+        '<button type="button" class="actions-btn bs-select-all btn btn-default">' +
       this.options.selectAllText +
-      '</button>' +
-      '<button type="button" class="actions-btn bs-deselect-all btn btn-default">' +
+        '</button>' +
+        '<button type="button" class="actions-btn bs-deselect-all btn btn-default">' +
       this.options.deselectAllText +
-      '</button>' +
-      '</div>' +
-      '</div>'
+        '</button>' +
+        '</div>' +
+        '</div>'
           : '';
       var donebutton = this.multiple && this.options.doneButton ?
-      '<div class="bs-donebutton">' +
-      '<div class="btn-group btn-block">' +
-      '<button type="button" class="btn btn-sm btn-default">' +
+        '<div class="bs-donebutton">' +
+        '<div class="btn-group btn-block">' +
+        '<button type="button" class="btn btn-sm btn-default">' +
       this.options.doneButtonText +
-      '</button>' +
-      '</div>' +
-      '</div>'
+        '</button>' +
+        '</div>' +
+        '</div>'
           : '';
+
+      var clearClass = '';
+      var clearButton = '';
+      if (this.options.showClear) {
+        clearClass = this.options.showClear ? ' with-clear ' : '';
+        clearButton = '<a href="#" class="close clear" data-related-id="'+ this.elemId + '"><span>×</span></a>';
+      }
+
       var drop =
-          '<div class="btn-group bootstrap-select' + multiple + inputGroup + '">' +
+        '<div class="btn-group bootstrap-select' + multiple + inputGroup + clearClass + '">' +
           '<button type="button" class="' + this.options.styleBase + ' dropdown-toggle" data-toggle="dropdown"' + autofocus + '>' +
           '<span class="filter-option pull-left"></span>&nbsp;' +
           '<span class="bs-caret">' +
@@ -450,7 +464,8 @@
           '</ul>' +
           donebutton +
           '</div>' +
-          '</div>';
+          clearButton +
+        '</div>';
 
       return $(drop);
     },
@@ -1636,6 +1651,14 @@
       .on('keydown', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="menu"], .bs-searchbox input', Selectpicker.prototype.keydown)
       .on('focusin.modal', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role="menu"], .bs-searchbox input', function (e) {
         e.stopPropagation();
+      })
+      .on('click', '.bootstrap-select.with-clear .clear', function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var sp = $(this).parents('.bootstrap-select').data('this');
+        if (sp) {
+          sp.deselectAll();
+        }
       });
 
   // SELECTPICKER DATA-API

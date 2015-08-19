@@ -1,5 +1,5 @@
 /*!
- * Bootstrap-select v1.7.3 (http://silviomoreto.github.io/bootstrap-select)
+ * Bootstrap-select v1.7.3-custom (http://silviomoreto.github.io/bootstrap-select)
  *
  * Copyright 2013-2015 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
@@ -176,6 +176,18 @@
 }
 .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
   margin-right: 34px;
+}
+.bootstrap-select.btn-group.with-clear .btn {
+  padding-right: 35px;
+}
+.bootstrap-select.btn-group.with-clear .caret {
+  right: 22px;
+}
+.bootstrap-select.btn-group.with-clear .close {
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  z-index: 1000;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle {
   z-index: 1061;
