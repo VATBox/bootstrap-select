@@ -179,7 +179,7 @@
   // Case and accent insensitive begins search
   $.expr[':'].aibegins = function (obj, index, meta) {
     var $obj = $(obj);
-    var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toString().toUpperCase();
+    var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toUpperCase();
     return haystack.startsWith(meta[3].toUpperCase());
   };
 
@@ -1635,6 +1635,7 @@
         var sp = $(this).parents('.bootstrap-select').data('this');
         if (sp) {
           sp.deselectAll();
+          sp.$element.triggerNative('change');
         }
       });
 

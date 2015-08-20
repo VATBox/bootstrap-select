@@ -181,21 +181,21 @@
   // Case insensitive contains search
   $.expr[':'].icontains = function (obj, index, meta) {
     var $obj = $(obj);
-    var haystack = ($obj.data('tokens') || $obj.text()).toUpperCase();
+    var haystack = ($obj.data('tokens') || $obj.text()).toString().toUpperCase();
     return haystack.includes(meta[3].toUpperCase());
   };
 
   // Case insensitive begins search
   $.expr[':'].ibegins = function (obj, index, meta) {
     var $obj = $(obj);
-    var haystack = ($obj.data('tokens') || $obj.text()).toUpperCase();
+    var haystack = ($obj.data('tokens') || $obj.text()).toString().toUpperCase();
     return haystack.startsWith(meta[3].toUpperCase());
   };
 
   // Case and accent insensitive contains search
   $.expr[':'].aicontains = function (obj, index, meta) {
     var $obj = $(obj);
-    var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toUpperCase();
+    var haystack = ($obj.data('tokens') || $obj.data('normalizedText') || $obj.text()).toString().toUpperCase();
     return haystack.includes(meta[3].toUpperCase());
   };
 
@@ -1658,6 +1658,7 @@
         var sp = $(this).parents('.bootstrap-select').data('this');
         if (sp) {
           sp.deselectAll();
+          sp.$element.triggerNative('change');
         }
       });
 

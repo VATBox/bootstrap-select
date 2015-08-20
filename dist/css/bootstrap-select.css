@@ -187,7 +187,7 @@
   position: absolute;
   right: 5px;
   top: 2px;
-  z-index: 1000;
+  z-index: 900;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle {
   z-index: 1061;
