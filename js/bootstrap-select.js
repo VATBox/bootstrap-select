@@ -118,7 +118,7 @@
       // initialize object and result
       r=[];
       // iterate over object keys
-      for (k in o) 
+      for (k in o)
           // fill result array with non-prototypical keys
         r.hasOwnProperty.call(o, k) && r.push(k);
       // return result
@@ -268,7 +268,7 @@
     this.init();
   };
 
-  Selectpicker.VERSION = '1.7.4-custom';
+  Selectpicker.VERSION = '1.7.5-custom';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
@@ -757,8 +757,8 @@
                         parseInt(menuStyle ? menuStyle.paddingBottom : $menu.css('paddingBottom')) +
                         parseInt(menuStyle ? menuStyle.borderTopWidth : $menu.css('borderTopWidth')) +
                         parseInt(menuStyle ? menuStyle.borderBottomWidth : $menu.css('borderBottomWidth')),
-          menuExtras =  menuPadding + 
-                        parseInt(menuStyle ? menuStyle.marginTop : $menu.css('marginTop')) + 
+          menuExtras =  menuPadding +
+                        parseInt(menuStyle ? menuStyle.marginTop : $menu.css('marginTop')) +
                         parseInt(menuStyle ? menuStyle.marginBottom : $menu.css('marginBottom')) + 2;
 
       document.body.removeChild(newElement);
@@ -1384,6 +1384,11 @@
             105: '9'
           };
 
+      // In case there appeared not related bs-searchbox
+      if (!that) {
+        return;
+      }
+
       if (that.options.liveSearch) $parent = $this.parent().parent();
 
       if (that.options.container) $parent = that.$menu;
@@ -1432,7 +1437,7 @@
         last = $items.filter(selector).last().index();
         next = $items.eq(index).nextAll(selector).eq(0).index();
         prev = $items.eq(index).prevAll(selector).eq(0).index();
-        nextPrev = $items.eq(next).prevAll(selector).eq(0).index(); 
+        nextPrev = $items.eq(next).prevAll(selector).eq(0).index();
 
         if (that.options.liveSearch) {
           $items.each(function (i) {
